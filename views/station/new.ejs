@@ -1,0 +1,20 @@
+<% include ../partials/header %>
+
+<form action="/station"  method="POST" >
+	<div class="container" style="width: 33%;">
+		<div class="form-group" >
+			<label for="station[stationName]" >Station Name:</label>
+			<input class= "form-control" type="text" name="station[stationName]" placeholder="Station Name">
+		</div>
+		<div class="form-group" >
+			<label for="station[stationId]" >Station Id</label>
+			<input class= "form-control" type="text" name="station[stationId]" placeholder="Station Id">
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary form-control">Submit</button>
+		</div>
+	</div>
+</form>
+
+<% include ../partials/footer %>
+

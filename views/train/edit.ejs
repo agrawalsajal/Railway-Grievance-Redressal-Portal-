@@ -1,0 +1,21 @@
+<% include ../partials/header %>
+
+<form action="/train/<%=train._id%>?_method=PUT"  method="POST" >
+	<div class="container" style="width: 33%;">
+		<input type="hidden" name="oldTrainId" value="<%= train.trainId%>">
+		<div class="form-group" >
+			<label for="train[trainName]" >train Name:</label>
+			<input class= "form-control" type="text" name="train[trainName]" value="<%= train.trainName%>">
+		</div>
+		<div class="form-group" >
+			<label for="train[trainId]" >train Id</label>
+			<input class= "form-control" type="text" name="train[trainId]" value="<%= train.trainId%>">
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary form-control">Submit</button>
+		</div>
+	</div>
+</form>
+
+<% include ../partials/footer %>
+

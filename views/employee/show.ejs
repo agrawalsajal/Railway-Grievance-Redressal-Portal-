@@ -1,0 +1,132 @@
+<% include ../partials/header %>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3">
+			<ul class="list-group">
+			  	<li class="list-group-item active">Info   </li>
+			  	<li class="list-group-item "><a href="#">Name: <%= employee.name %> </a></li>
+			  	<li class="list-group-item "><a href="#">Username: <%= employee.username %> </a></li>
+			  	<li class="list-group-item "><a href="#">Email: <%= employee.email %> </a></li>
+			  	<li class="list-group-item "><a href="#">Current complaints: <%= employee.noOfCurrentComplaints %> </a></li>
+			  	<li class="list-group-item "><a href="#">Solved complaints: <%= employee.noOfSolvedComplaints %> </a></li>
+			  	<li class="list-group-item ">
+			  		<a href="/employee/<%= employee._id %>/edit" class="btn btn-primary btn-sm">Edit Profile</a>
+			  		<form class="del-button" action="/employee/<%= employee._id %>?_method=DELETE" method="POST">
+						<button class="btn btn-danger btn-sm" >Delete</button>
+					</form>
+			  	</li>
+
+			  	<br>
+				<li class="list-group-item active">More Info </li>
+				<li class="list-group-item ">Forgot password: 
+					<a href="/employee/forgot" class="btn btn-primary btn-sm">Reset Password</a>
+				</li>
+
+				<br>
+				<li class="list-group-item active">More Info </li>
+				<li class="list-group-item">Department
+					<a href="/dept/<%= employee.department.id %>" class="pull-right"><%= employee.department.deptName%></a>
+				</li>
+				
+				<% if(employee.dutyType === "station"){%>
+					<li class="list-group-item">Station
+					<a href="/station/<%= employee.station.id %>" class="pull-right"><%= employee.dutyId%></a></li>
+				<% } else if(employee.dutyType === "train"){ %>
+					<li class="list-group-item">Train
+					<a href="/train/<%= employee.train.id %>" class="pull-right"><%= employee.dutyId%></a></li>
+				<% } %>
+			
+				
+				
+			</ul>
+
+		</div>
+		<div class="col-md-9 well">
+			<canvas id="line-chart" width="800" height="450"></canvas>
+		</div>
+
+	<div>
+</div>
+
+
+<div class="container">
+	<h3>Complaints: </h3>
+	<div class="row fl_wp">
+		<% complaints.forEach(function(complaint){%>
+			<div class="col-xs-12 col-sm-6 col-lg-4">
+				<div class="thumbnail">
+					<img src=" <%= complaint.image %> ">
+					<div class="caption">
+						<h2> <%= complaint.title %> </h2>
+						<p> <%= complaint.desc.substr(0,50)%>...</p>
+						<a class="btn btn-primary" href="/complaint/<%= complaint._id%>">know more</a>
+					</div>
+				</div>
+			</div> 
+		<% }) %>
+	</div>
+	<% var cpage = Number(cpage) %>
+	<% var epage = Number(epage) %>
+	
+	<nav aria-label="...">
+	  <ul class="pager">
+		<% if(cpage && cpage > 0){ %>
+			<li><a href="/dept/<%= dept._id%>?cpage=<%= cpage-1%>&epage=<%= epage%>">Previous</a></li>
+		<% } %>
+		<% if( (cpage+1)*3 < allComps.length ){ %>
+			<li><a href="/dept/<%= dept._id%>?cpage=<%= cpage+1%>&epage=<%= epage%>">Next</a></li>
+		<% } %>
+	  </ul>
+	</nav>
+
+	
+</div>
+<script type="text/javascript">
+
+	new Chart(document.getElementById("line-chart"), {
+	  	type: 'line',
+	  	data: {
+			labels: "<%= stat[2] %>".split(","),
+			datasets: [{ 
+				data: [<%= stat[0]%>],
+				label: "Unresolved Complaints",
+				borderColor: "#3e95cd",
+				fill: false
+		  	},
+		  	{ 
+				data: [<%= stat[1]%>],
+				label: "Resolved Complaints",
+				borderColor: "#8e5ea2",
+				fill: false
+		  	}
+			]
+	  	},
+	  	options: {
+			title: {
+			 	display: true,
+			  	text: 'Performance of the employee(no. of complaints resolved)'
+			},
+			elements: {
+	            line: {
+	                tension: 0, // disables bezier curves
+	            }
+	        },scales: {
+			    yAxes: [{
+			      	scaleLabel: {
+			        	display: true,
+			        	labelString: 'No. of Complaints'
+			      	}
+			    }],
+			    xAxes: [{
+			      	scaleLabel: {
+			        	display: true,
+			        	labelString: 'Month'
+			      	}
+			    }]
+			}
+		}
+	});
+</script>
+
+<% include ../partials/footer %>

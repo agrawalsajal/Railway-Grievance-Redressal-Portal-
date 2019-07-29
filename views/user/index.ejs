@@ -1,0 +1,35 @@
+<% include ../partials/header %>
+
+<div class="container">
+	<div class="jumbotron">
+		<h1>Users</h1>
+		<p>All the users</p>
+		<hr>
+		 <p>
+           <form action="/user" method="GET" class="form-inline">
+               <div class="form-group">
+                   <input type="text" name="search" placeholder="User search..." class="form-control">
+                   <input type="submit" value="Search" class="btn btn-default">
+               </div>
+           </form>
+       </p>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row fl_wp">
+		<% users.forEach(function(user){ %>
+			<div class="col-xs-12 col-sm-6 col-lg-4">
+				<div class="thumbnail">
+					<img src=" <%= user.image %> ">
+					<div class="caption">
+						<h2> <%= user.name %> </h2>
+						<a class="btn btn-primary" href="/user/<%= user._id %>">Know more</a>
+					</div>
+				</div>
+			</div> 
+		<% }) %>
+	</div>
+</div>
+
+<% include ../partials/footer %>

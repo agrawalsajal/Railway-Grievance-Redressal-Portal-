@@ -1,0 +1,52 @@
+<% include ../partials/header %>
+
+<h1 style="text-align:center">Add a new complaint here</h1>
+
+<form action="/complaint" method="POST">
+	<div class="container" style="width:33%;">
+		<div class="form-group">
+			<label for="complaint[title]" >Complaint Title:</label>
+			<input class="form-control" type="text" name="complaint[title]" placeholder="Title">
+		</div>
+		<div class="form-group">
+			<label for="compliant[complaintType]" >complaint Related To:</label>
+			<select class="form-control" name="complaint[complaintType]">
+				<option value="station" >Station</option>
+				<option value="train" >Train</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="deptName" >Complaint Department Name:</label>
+			<select class="form-control" name="deptName">
+				<% depts.forEach(function(dept){ %>
+					<option value="<%= dept.deptName %>" ><%= dept.deptName %></option>
+				<% }) %>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="complaint[complaintTypeId]" >Train Name (Id) / Station Name (Id):</label>
+			<select class="form-control" name="complaint[complaintTypeId]">
+				<% trains.forEach(function(train){ %>
+					<option value="<%=train.trainId%>" >Train <%=train.trainName%> (<%= train.trainId %>)</option>
+				<% }) %>
+				<% stations.forEach(function(station){ %>
+					<option value="<%= station.stationId%>" >Station <%=station.stationName %> (<%= station.stationId %>)</option>
+				<% }) %>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="complaint[image]" >Image:</label>
+			<input class="form-control" type="text" name="complaint[image]"  placeholder="Image">
+		</div>
+		<div class="form-group">
+			<label for="complaint[desc]" >Complaint Description:</label>
+			<textarea class="form-control" rows="4" cols="50" name="complaint[desc]"></textarea>
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary form-control">Submit</button>
+		</div>
+		<a href="/complaint">Go Back</a>
+	</div>	
+</form>
+
+<% include ../partials/footer %>

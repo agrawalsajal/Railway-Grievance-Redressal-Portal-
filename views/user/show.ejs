@@ -1,0 +1,55 @@
+<% include ../partials/header %>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3">
+			<h3>Profile</h3>
+			<ul class="list-group">
+			  	<li class="list-group-item active">Info   </li>
+			  	<li class="list-group-item "><a href="#">Name: <%= user.name %> </a></li>
+			  	<li class="list-group-item "><a href="#">Username: <%= user.username %> </a></li>
+			  	<li class="list-group-item "><a href="#">Email: <%= user.email %> </a></li>
+			  	<li class="list-group-item ">
+			  		<a href="/user/<%= user._id %>/edit" class="btn btn-primary btn-sm">Edit Profile</a>
+			  		<form class="del-button" action="/user/<%= user._id %>?_method=DELETE" method="POST">
+						<button class="btn btn-danger btn-sm" >Delete</button>
+					</form>
+			  	</li>
+			  	<!-- <% if(currentUser && currentUser._id.equals(user._id)){ %>
+						<a href="/user/<%= user._id %>/edit" class="btn btn-primary btn-sm">Edit</a>
+						<form class="del-button" action="/user/<%= user._id %>?_method=DELETE" method="POST">
+							<button class="btn btn-danger btn-sm" >Delete</button>
+						</form>
+					<% } %> -->
+
+			  	<br>
+				<li class="list-group-item active">More Info </li>
+				<li class="list-group-item ">Forgot password: 
+					<a href="/user/forgot" class="btn btn-primary btn-sm">Reset Password</a>
+				</li>
+
+			</ul>
+
+		</div>
+
+		<div class="col-md-9">
+			<h3>Complaints Made: </h3>
+			<div class="row fl_wp">
+				<% complaints.forEach(function(complaint){ %>
+					<div class="col-xs-12 col-sm-6 col-lg-4">
+						<div class="thumbnail">
+							<img src=" <%= complaint.image %> ">
+							<div class="caption">
+								<h2> <%= complaint.title %> </h2>
+								<p> <%= complaint.desc.substr(0,50)%>...</p>
+								<a class="btn btn-primary" href="/complaint/<%= complaint._id %>">Know more</a>
+							</div>
+						</div>
+					</div> 
+				<% }) %>
+			</div>
+		</div>
+	<div>
+</div>
+
+<% include ../partials/footer %>

@@ -1,0 +1,120 @@
+<% include ../partials/header %>
+
+<div class="container">
+	<div class="jumbotron">
+		<h1>Complaints</h1>
+		<p>Please check your complaints here</p>
+		<hr>
+		<p><a class="btn btn-lg btn-primary" href="/complaint/new">Make a complaint</a></p>
+		 <p>
+           <form action="/complaint" method="GET" class="form-inline">
+               <div class="form-group">
+                   <input type="text" name="search" placeholder="Complaint search..." class="form-control">
+                   <input type="submit" value="Search" class="btn btn-default">
+               </div>
+           </form>
+       </p>
+	</div>
+	
+	<diV class="row">
+		<div class="container">
+			<div class="col-md-3">
+				<ul class="list-group">
+				  	<li class="list-group-item active">No. of Unresolved Complaints</li>
+				  	<li class="list-group-item ">
+				  		<a href="#">Previous Month: <span class="pull-right"> <%= stat[0][10]%> </span> </a>  
+				  	</li>
+				  	<li class="list-group-item ">
+				  		<a href="#">Current Month: <span class="pull-right"> <%= stat[0][11]%> </span> </a>  
+				  	</li>
+				  	<li class="list-group-item ">
+				  		<a href="#">Current Year: <span class="pull-right"> <%= regSum%> </span> </a> 
+				  	</li>
+				</ul>
+				<br>
+				<ul class="list-group">
+				  	<li class="list-group-item active">No. of Resolved Complaints</li>
+				  	<li class="list-group-item ">
+				  		<a href="#">Previous Month: <span class="pull-right"> <%= stat[1][10]%> </span> </a>  
+				  	</li>
+				  	<li class="list-group-item ">
+				  		<a href="#">Current Month: <span class="pull-right"> <%= stat[1][11]%> </span> </a>  
+				  	</li>
+				  	<li class="list-group-item ">
+				  		<a href="#">Current Year: <span class="pull-right"> <%= resSum%> </span> </a> 
+				  	</li>
+				</ul>
+			</div>
+			<div class="well col-md-9">
+				<canvas id="bar-chart-grouped" width="800" height="450"></canvas>
+			</div>
+		</div>
+	</diV>
+		
+		
+	
+	
+</div>
+
+
+
+
+<div class="container">
+	<h3>Complaints</h3>
+	<div class="row fl_wp">
+		<% complaints.forEach(function(complaint){ %>
+			<div class="col-xs-12 col-sm-6 col-lg-4">
+				<div class="thumbnail">
+					<img src=" <%= complaint.image %> ">
+					<div class="caption">
+						<h2> <%= complaint.title %> </h2>
+						<p> <%= complaint.desc.substr(0,50)%>...</p>
+						<a class="btn btn-primary" href="/complaint/<%= complaint._id %>">Know more</a>
+					</div>
+				</div>
+			</div> 
+		<% }) %>
+	</div>
+</div>
+
+<script type="text/javascript">
+	new Chart(document.getElementById("bar-chart-grouped"), {
+    type: 'bar',
+    data: {
+      labels: "<%= stat[2] %>".split(","),
+      datasets: [
+        {
+          label: "Unresolved",
+          backgroundColor: "#3e95cd",
+          data: [<%= stat[0]%>]
+        }, {
+          label: "Resolved",
+          backgroundColor: "#88f4ad",
+          data: [<%= stat[1]%>]
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Number of complaints in each month'
+      },scales: {
+		    yAxes: [{
+		      	scaleLabel: {
+		        	display: true,
+		        	labelString: 'No. of Complaints'
+		      	}
+		    }],
+		    xAxes: [{
+		      	scaleLabel: {
+		        	display: true,
+		        	labelString: 'Month'
+		      	}
+		    }]
+		}
+    }
+});
+</script>
+
+
+<% include ../partials/footer %>

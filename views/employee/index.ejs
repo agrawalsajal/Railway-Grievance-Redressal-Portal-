@@ -1,0 +1,36 @@
+<% include ../partials/header %>
+
+<div class="container">
+	<div class="jumbotron">
+		<h1>Employees</h1>
+		<p>All the employees</p>
+		<hr>
+		<p><a class="btn btn-lg btn-primary" href="/employeeRegister">New Employee</a></p>
+		 <p>
+           <form action="/employee" method="GET" class="form-inline">
+               <div class="form-group">
+                   <input type="text" name="search" placeholder="Employee search..." class="form-control">
+                   <input type="submit" value="Search" class="btn btn-default">
+               </div>
+           </form>
+       </p>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row fl_wp">
+		<% employees.forEach(function(employee){ %>
+			<div class="col-xs-12 col-sm-6 col-lg-4">
+				<div class="thumbnail">
+					<img src=" <%= employee.image %> ">
+					<div class="caption">
+						<h2> <%= employee.name %> </h2>
+						<a class="btn btn-primary" href="/employee/<%= employee._id %>">Know more</a>
+					</div>
+				</div>
+			</div> 
+		<% }) %>
+	</div>
+</div>
+
+<% include ../partials/footer %>

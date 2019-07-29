@@ -1,0 +1,19 @@
+<% include ../partials/header %>
+
+<form action="/dept"  method="POST" >
+	<div class="container" style="width: 33%;">
+		<div class="form-group" >
+			<label for="dept[deptName]" >Department Name:</label>
+			<input class= "form-control" type="text" name="dept[deptName]" placeholder="department name">
+		</div>
+		<div class="form-group" >
+			<label for="dept[deptId]" >Department Id:</label>
+			<input class= "form-control" type="text" name="dept[deptId]" placeholder="department Id">
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary form-control">Submit</button>
+		</div>
+	</div>
+</form>
+
+<% include ../partials/footer %>

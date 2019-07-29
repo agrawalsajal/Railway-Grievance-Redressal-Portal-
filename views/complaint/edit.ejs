@@ -1,0 +1,83 @@
+<% include ../partials/header %>
+
+<h1 style="text-align:center">Add a new complaint here</h1>
+
+<form action="/complaint/<%=complaint._id%>?_method=PUT" method="POST">
+	<div class="container" style="width:33%;">
+		<div class="form-group">
+			<label for="complaint[title]" >Complaint Title:</label>
+			<input class="form-control" type="text" name="complaint[title]" value="<%= complaint.title%>">
+		</div>
+		<div class="form-group">
+			<label for="complaint[complaintType]" >complaint Related To:</label>
+			<select class="form-control" name="complaint[complaintType]">
+				<option value="<%=complaint.complaintType%>" ><%= complaint.complaintType%></option>
+				<option value="station" >Station</option>
+				<option value="train" >Train</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="deptName" >Complaint Department Name:</label>
+			<select class="form-control" name="deptName">
+				<option value="<%= complaint.department.deptName %>" ><%= complaint.department.deptName %></option>
+				<% depts.forEach(function(dept){ %>
+					<option value="<%= dept.deptName %>" ><%= dept.deptName %></option>
+				<% }) %>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="complaint[complaintTypeId]" >Train Name (Id) / Station Name (Id):</label>
+			<select class="form-control" name="complaint[complaintTypeId]">
+				<% if(complaint.complaintType === "train"){ %>
+					<option value="<%=complaint.train.trainId%>" >Train id: (<%= complaint.train.trainId %>)</option>
+				<% } else{ %>
+					<option value="<%= complaint.station.stationId%>" >Station id: (<%= complaint.station.stationId %>)</option>
+				<% } %>
+				<% trains.forEach(function(train){ %>
+					<option value="<%=train.trainId%>" >Train: <%=train.trainName%> (<%= train.trainId %>)</option>
+				<% }) %>
+				
+				<% stations.forEach(function(station){ %>
+					<option value="<%= station.stationId%>" >Station: <%=station.stationName %> (<%= station.stationId %>)</option>
+				<% }) %>
+			</select>
+		</div>
+		<input type="hidden" name="oldEmployee" value="<%= complaint.resolver.id._id%>">
+		<input type="hidden" name="oldStatus" value="<%= complaint.status%>">
+		<div class="form-group">
+			<label for="resolverUsername" >Employee:</label>
+			<select class="form-control" name="resolverUsername">
+				<% if(complaint.complaintType === "train"){ %>
+					<option value="<%=complaint.resolver.username%>" ><%=complaint.resolver.username%> Dept: (<%= complaint.department.deptName %>) Train: (<%= complaint.train.trainId %>) </option>
+				<% } else{ %>
+					<option value="<%=complaint.resolver.username%>" ><%=complaint.resolver.username%> Dept: (<%= complaint.department.deptName %>) Station: (<%= complaint.station.stationId %>)</option>
+				<% } %>
+				<% employees.forEach(function(employee){ %>
+					<% if(employee.dutyType === "train"){ %>
+						<option value="<%=employee.username%>" ><%=employee.username%> Dept: (<%= employee.department.deptName %>) Train: (<%= employee.train.trainId %>) </option>
+					<% } else{ %>
+						<option value="<%=employee.username%>" ><%=employee.username%> Dept: (<%= employee.department.deptName %>) Station: (<%= employee.station.stationId %>)</option>
+					<% } %>
+				<% }) %>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="complaint[status]" >Status:</label>
+			<input class="form-control" type="Number" name="complaint[status]" value="<%=complaint.status%>" min="1" max="4">
+		</div>
+		<div class="form-group">
+			<label for="complaint[image]" >Image:</label>
+			<input class="form-control" type="text" name="complaint[image]"  value="<%=complaint.image%>">
+		</div>
+		<div class="form-group">
+			<label for="complaint[desc]" >Complaint Description:</label>
+			<textarea class="form-control" rows="4" cols="50" name="complaint[desc]"><%=complaint.desc%></textarea>
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary form-control">Submit</button>
+		</div>
+		<a href="/complaint">Go Back</a>
+	</div>	
+</form>
+
+<% include ../partials/footer %>

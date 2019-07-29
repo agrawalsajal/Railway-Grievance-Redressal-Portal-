@@ -1,0 +1,86 @@
+<% include ../partials/header %>
+
+
+<div class="container">
+	<div class="jumbotron">
+		<h1> Check all stations here</h1>
+		<hr>
+		<a href="/station/new" class="btn btn-primary">Add a station</a>
+		<p>
+           <form action="/station" method="GET" class="form-inline">
+               <div class="form-group">
+                   <input type="text" name="search" placeholder="Station search..." class="form-control">
+                   <input type="submit" value="Search" class="btn btn-default">
+               </div>
+           </form>
+       </p>
+	</div>
+	<div class="row container">
+		<div class="col-md-6 well">
+	 		<canvas id="pie-chart1" width="800" height="450"></canvas>
+	 	</div>
+	 	<div class="col-md-6 well">
+	 		<canvas id="doughnut-chart2" width="800" height="450"></canvas>
+	 	</div>
+	 </div>
+</div>
+
+<div class="container">
+	<h3>Stations</h3>
+	<div class="row fl_wp">
+		<% stations.forEach(function(station){ %>
+			<div class="col-xs-12 col-sm-6 col-lg-4">
+				<div class="thumbnail">
+					<div class="caption">
+						<h2> <u><%= station.stationName %></u> </h2>
+						<a class="btn btn-primary" href="/station/<%= station._id%>" >Know More</a>
+					</div>
+				</div>
+			</div> 
+		<% }) %>
+	</div>
+</div>
+
+<script type="text/javascript">
+	new Chart(document.getElementById("pie-chart1"), {
+    type: 'pie',
+    data: {
+      labels: "<%= sname %>".split(","),
+      datasets: [{
+        label: "No. of complaints",
+        backgroundColor: "<%= color1 %>".split(","),
+        data: [<%= noc %>]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'No. Of Complaints In Each Station'
+      }
+    }
+});
+</script>
+
+<script type="text/javascript">
+	new Chart(document.getElementById("doughnut-chart2"), {
+    type: 'doughnut',
+    data: {
+      labels: "<%= sname %>".split(","),
+      datasets: [
+        {
+          label: "No. of employees",
+          backgroundColor: "<%= color1 %>".split(","),
+          data: [<%= noe %>]
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'No. Of Employees In Each Station'
+      }
+    }
+});
+</script>
+
+<% include ../partials/footer %>

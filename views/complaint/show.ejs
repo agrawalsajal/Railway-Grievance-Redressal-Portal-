@@ -1,0 +1,77 @@
+<% include ../partials/header %>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-3">
+			<ul class="list-group">
+			  <li class="list-group-item active">Status   </li>
+			  <li class="list-group-item">Complaint Registered 
+				  <span class="pull-right">
+				  	<% if(complaint.status >=1){ %> Done <% }else{ %> Not Done <% } %>
+				  </span></li>  
+			  <li class="list-group-item">Verified 
+				  <span class="pull-right">
+				  	<% if(complaint.status >=2){ %>  Done <% }else{ %> Not Done <% } %>
+				  </span></li>
+			  <li class="list-group-item">Processing 
+				  <span class="pull-right">
+				  	<% if(complaint.status >=3){ %>  Done <% }else{ %> Not Done <% } %>
+				  </span></li>
+			  <li class="list-group-item">Resolved 
+				  <span class="pull-right">
+				  	<% if(complaint.status >=4){ %> Done <% }else{ %> Not Done <% } %>
+				  </span></li>
+			  <br>
+			  <li class="list-group-item active">Date  </li>
+		  		<li class="list-group-item">Registered On: 
+					<span class="pull-right"><%=complaint.dateReg.getDate()%>-<%= complaint.dateReg.getMonth()+1 %>-<%=complaint.dateReg.getFullYear()%></span>
+				</li>
+				<% if(complaint.status == 4){ %>
+				<li class="list-group-item">Resolved On: 
+					<span class="pull-right"><%=complaint.dateFinish.getDate()%>-<%= complaint.dateFinish.getMonth()+1 %>-<%=complaint.dateFinish.getFullYear()%></span>
+				</li>
+				<% } %>	
+
+				<br>
+				<li class="list-group-item active">More Info </li>
+				<li class="list-group-item">Department
+					<a href="/dept/<%= complaint.department.id %>" class="pull-right"><%= complaint.department.deptName%></a>
+				</li>
+				<% if(complaint.complaintType === "station"){%>
+					<li class="list-group-item">Station
+					<a href="/station/<%= complaint.station.id %>" class="pull-right"><%= complaint.complaintTypeId%></a></li>
+				<% } else if(complaint.complaintType === "train"){ %>
+					<li class="list-group-item">Train
+					<a href="/train/<%= complaint.train.id %>" class="pull-right"><%= complaint.complaintTypeId%></a></li>
+				<% } %>
+				
+			</ul>
+
+		</div>
+
+		<div class="col-md-9">
+			<div class="thumbnail">
+				<img src=" <%= complaint.image %> ">
+				<div class="caption">
+					<a href="#"> <%= complaint.title %> </a>
+					<p> <%= complaint.desc %> </p>
+					<p><em>This complaint was created by <strong> <a href="/user/<%= complaint.complainer.id %>"><%= complaint.complainer.username %></a> </strong></em></p>
+					<p><em>This complaint is handeled by <strong> <a href="/employee/<%= complaint.resolver.id %>"><%= complaint.resolver.username %></a> </strong></em></p>
+					<a href="/complaint/<%= complaint._id %>/edit" class="btn btn-primary btn-sm">Edit</a>
+					<form class="del-button" action="/complaint/<%= complaint._id %>?_method=DELETE" method="POST">
+						<button class="btn btn-danger btn-sm" >Delete</button>
+					</form>
+					<!-- <% if(currentUser && currentUser._id.equals(complaint.complainer.id)){ %>
+						<a href="/complaint/<%= complaint._id %>/edit" class="btn btn-primary btn-sm">Edit</a>
+						<form class="del-button" action="/complaint/<%= complaint._id %>?_method=DELETE" method="POST">
+							<button class="btn btn-danger btn-sm" >Delete</button>
+						</form>
+					<% } %> -->
+				</div>
+			</div>
+		</div>
+	<div>
+</div>
+
+
+<% include ../partials/footer %>

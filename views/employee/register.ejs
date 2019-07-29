@@ -1,0 +1,58 @@
+<% include ../partials/header %>
+
+<form action="/employeeRegister"  method="POST" >
+	<div class="container" style="width: 33%;">
+		<div class="form-group" >
+			<label for="name" >Name:</label>
+			<input class= "form-control" type="text" name="name" placeholder="Name">
+		</div>
+		<div class="form-group" >
+			<label for="username" >User Name:</label>
+			<input class= "form-control" type="text" name="username" placeholder="User Name">
+		</div>
+		<div class="form-group" >
+			<label for="email" >email:</label>
+			<input class= "form-control" type="text" name="email" placeholder="email">
+		</div>
+		<div class="form-group">
+			<label for="dutyType" >Duty Place:</label>
+			<select class="form-control" name="dutyType">
+				<option value="station" >Station</option>
+				<option value="train" >Train</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="deptName" >Department Name:</label>
+			<select class="form-control" name="deptName">
+				<% depts.forEach(function(dept){ %>
+					<option value="<%=dept.deptName%>" ><%= dept.deptName %></option>
+				<% }) %>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="dutyId" >Train Name (Id) / Station Name (Id):</label>
+			<select class="form-control" name="dutyId">
+				<% trains.forEach(function(train){ %>
+					<option value="<%=train.trainId%>" >Train <%=train.trainName%> (<%= train.trainId %>)</option>
+				<% }) %>
+				<% stations.forEach(function(station){ %>
+					<option value="<%= station.stationId%>" >Station <%=station.stationName %> (<%= station.stationId %>)</option>
+				<% }) %>
+			</select>
+		</div>
+		<div class="form-group" >
+			<label for="password" >Password:</label>
+			<input class= "form-control" type="password" name="password" placeholder="password">
+		</div>
+		<div class="form-group" >
+			<label for="adminCode" >Admin Code:</label>
+			<input class= "form-control" type="text" name="adminCode" placeholder="admincode">
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary form-control">Submit</button>
+		</div>
+	</div>
+</form>
+
+<% include ../partials/footer %>
+
